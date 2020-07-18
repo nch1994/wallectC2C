@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>登录页</title>
+    <link rel="icon" href="../images/group3.png" >
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/adaptation.css">
+</head>
+<body class="login">
+    <div class="mui-content" >
+		<header class="mui-bar mui-bar-nav ">
+			<img src="../images/login_logo.png" >
+			<p>最方便使用的OTC服务平台</p>
+		</header>
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell">
+				<span>登录</span>
+			</li>
+			<li class="mui-table-view-cell mui-row">
+				<div class="mui-col-xs-3">
+					<!-- <select id="login_select">
+						<option value ="86">+86</option>
+          </select> -->
+          <span style="font-size: 0.875rem;">邮箱</span>
+				</div>
+				<input type="text" name="" id="phone_num" value="" class="mui-col-xs-5" style="width: 51.66666%!important"/>
+				<img src="../images/closed.png" class="mui-col-xs-4 closed" id="login_close">
+			</li>
+			<li class="mui-table-view-cell mui-row">
+				<span class="mui-col-xs-3">验证码</span>
+				<input type="text" name="" id="verCode" value="" class="mui-col-xs-5"/>
+				<input type="button" class="mui-col-xs-4" id="getcodes" value="获取验证码" />
+			</li>
+		</ul>
+		<div class="mui-table-view-cell foot">
+			<button type="button" class="mui-col-xs-12" id="logining" onclick="logining()">立即登录</button>
+			<a class="mui-col-xs-12" onclick="toAgreement()">登录即表示同意 Wallet c2c 服务协议</a>
+		</div>
+    </div>
+    <script src="../js/jquery.min.js" type="text/javascript"></script>
+    <script src="../js/mui.min.js" type="text/javascript"></script>
+    <script src="../js/crypto-js.js" type="text/javascript"></script>
+    <script src="../js/des.js" type="text/javascript"></script>
+    <script src="../js/common.js" type="text/javascript"></script>
+    <script>
+		function toAgreement(){
+			window.location.href="agreement.html";
+		}
+		//发送验证码时添加cookie
+		function addCookie(name, value, expiresHours) {
+			var cookieString = name + "=" + escape(value);
+			//判断是否设置过期时间,0代表关闭浏览器时失效
+			if (expiresHours > 0) {
+				var date = new Date();
+				date.setTime(date.getTime() + expiresHours * 1000);
+				cookieString = cookieString + ";expires="  + date.toUTCString();
+			}
+			document.cookie = cookieString;
+		}
+		//修改cookie的值
+		function editCookie(name, value, expiresHours) {
+			var cookieString = name + "=" + escape(value);
+			if (expiresHours > 0) {
+				var date = new Date();
+				date.setTime(date.getTime() + expiresHours * 1000);  //单位是毫秒
+				cookieString = cookieString + ";expires="  + date.toGMTString();
+			}
+			document.cookie = cookieString;
+		}
+		//根据键名获取cookie的值
+		function getCookieValue(name) {
+			var strCookie = document.cookie;
+			var arrCookie = strCookie.split("; ");
+			for (var i = 0; i < arrCookie.length; i++) {
+				var arr = arrCookie[i].split("=");
+				if (arr[0] == name) {
+					return unescape(arr[1]);
+					break;
+				}
+			}
+		}
+		// 文本框获取焦点后执行的方法
+		$("input").focus(function(){
+		    $(this).parent().attr('style','border-bottom:1px solid #16D7C2;')
+		})
+		// 文本框失去焦点后执行的方法
+		$("input").blur(function(){
+		    $(this).parent().attr('style','border-bottom:1px solid #00000015;')
+		})
+        $(document).ready(function () {
+            // 绑定事件(点击按钮，发送验证码)
+            $("#getcodes").click(function () {
+                send(this);
+            });
+            // 页面加载完成后，从cookie中获取剩余倒计时秒数。默认值为0
+            v = getCookieValue("secondsremained") ? getCookieValue("secondsremained") : 0;
+            // 如果cookie中倒计时时间不为0，则设置倒计时间
+            if (v > 0) {
+                settime(document.getElementById("getcodes"), v);//开始倒计时
+            }
+        });
+		// 禁止滑动
+		function bodyScroll(event){
+		    event.preventDefault();
+		}
+		document.body.addEventListener('touchmove',bodyScroll,false);
+		// document.getElementById('foot_index').addEventListener('touchmove',bodyScroll,true);
+		document.body.style.position='fixed';
+		document.body.style.width='100%';
+		if (navigator.userAgent.toLocaleLowerCase().includes('iphone')) {
+		     this.intervalFlag = setInterval(() => {
+		       document.querySelector('body').scrollTop = 0;
+		     }, 200);
+		   }
+    </script>
+</body>
+</html>

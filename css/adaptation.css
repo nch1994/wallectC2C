@@ -1,0 +1,63 @@
+@media only screen and (max-width: 320px) {
+	body,p{
+		font-size: 0.75rem;
+	}
+	.coin_main .coin_address .mui-col-xs-9 p{
+		width: 12.5rem;
+	}
+	.pay_bank .mui-input-group .mui-radio:last-child {
+	    height: 125px;
+	}
+    .login ul .down {
+        width: 0.76rem;
+    }
+    .login ul li:last-child span{
+        font-size: .8125rem;
+    }
+    .login .foot a,
+    .login ul li:last-child #getcodes,
+    .login ul li:last-child span,
+    .login select,
+    .login ul input[type=text]{
+        font-size: .75rem;
+    }
+	#index_main .label_l {
+	    width: 25%;
+	}
+	#index_main input{
+		width: 49%;padding-right: 0;
+	}
+	#index_main .mui-control-content{
+	    min-height: 25.5rem;
+	}
+	.main_order ul {
+	    margin: 0 8px;
+	}
+	.main_order #orders ul li{
+		padding: 6px;
+	}
+	.recharge_ps #phone_num{
+		width: 50%;
+	}
+	.identity img {
+	    width: 90px!important;
+	}
+	.callus .mui-content {
+	    font-size: 0.75rem;
+	}
+	.callus #address_callus{
+		margin: 0 0.125rem;
+	}
+	.mui-card{
+		font-size: 0.75rem!important;
+	}
+	#index_main .mui-table-view:first-child {
+	    margin: 1rem;
+	}
+	.myorder_buy ul li span:first-child{
+		font-size: 0.75rem;
+	}
+	#order_no, #order_nos{
+		width: 170px;
+	}
+}

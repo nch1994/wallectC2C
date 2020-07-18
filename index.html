@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>OTC主页</title>
+    <link rel="icon" href="images/group3.png" >
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="css/mui.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/adaptation.css?v=1.0.0">
+</head>
+<body class="index">
+    <nav class="mui-bar mui-bar-tab">
+        <a class="mui-tab-item mui-active" href="#index_main">
+            <span class="mui-icon home"></span>
+            <span class="mui-tab-label">一键买币</span>
+        </a>
+        <a class="mui-tab-item" href="#tabbar-with-contact" id="main_wallet">
+            <span class="mui-icon money"></span>
+            <span class="mui-tab-label">钱包</span>
+        </a>
+        <a class="mui-tab-item" href="#tabbar-with-map" id="main_map">
+            <span class="mui-icon my"></span>
+            <span class="mui-tab-label">我的</span>
+        </a>
+    </nav>
+    <div  class="mui-content">
+        <div id="index_main" class="mui-control-content mui-active">
+            <header class="mui-bar mui-bar-nav">
+                <h1 class="mui-title">OTC</h1>
+                <a class=" mui-icon mui-icon-right-nav mui-pull-right icon_right" onclick="mainorders()">
+                    <img src="images/icon@2x.png" >
+                </a>
+            </header>
+            <div class="mui-content" class="first_content">
+                <div id="segmentedControl" class="mui-segmented-control">
+                    <a class="mui-control-item mui-active" href="#item1"><span>购买</span></a>
+                    <a class="mui-control-item" href="#item2"><span>出售</span></a>
+                </div>
+                <div>
+                    <div id="item1" class="mui-control-content mui-active">
+                        <div id="scroll" class="mui-scroll-wrapper">
+                            <div class="mui-scroll">
+                                <ul class="mui-table-view first_ul">
+                                    <li class="mui-table-view-cell ">
+                                        <p>泰达币</p>
+                                        <p>
+                                            1USDT≈
+                                            <span id="one_rate"></span>
+                                            <span id="unit">元</span>
+                                        </p>
+                                    </li>
+                                    <li class="mui-table-view-cell">
+                                        <form class="mui-input-group">
+                                            <div class="mui-input-row">
+                                                <label class="label_l">数量</label>
+                                                <input type="number" placeholder="" class="num" id="nums" pattern="number" oninput="InputOnchange(this.id)" onkeyup="value=value.replace(/[^\d\.]/g,'')" autocomplete="off"/>
+                                                <label class="label_r_one">USDT</label>
+                                            </div>
+                                            <div class="mui-input-row">
+                                                <label class="label_l">金额</label>
+                                                <input type="number" placeholder="" class="num" id="moneys" pattern="number" oninput="InputOnchange(this.id)" onkeyup="value=value.replace(/[^\d\.]/g,'')" autocomplete="off"/>
+                                                <label class="label_r_one">元</label>
+                                            </div>
+                                        </form>
+                                    </li>
+                                    <li class="mui-table-view-cell">
+                                        <div class="mui-button-row">
+                                            <button type="button" class="mui-btn btn_buy" id="buys" onclick="buys()">立即购买</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <ul class="mui-table-view">
+                                    <li class="mui-table-view-cell legend">
+                                        <p class="first_p">OTC交易提醒</p>
+                                        <div class="foot_index">
+                                            <p class="xhp">1、本OTC业务与第三方合作，如有问题请联系客服：saraesa1</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="item2" class="mui-control-content">
+                        <ul class="mui-table-view first_ul">
+                            <li class="mui-table-view-cell ">
+                                <p>泰达币</p>
+                                <p>
+                                    1USDT≈
+                                    <span id="one_rates"></span>
+                                    <span id="units">元</span>
+                                </p>
+                            </li>
+                            <li class="mui-table-view-cell">
+                                <form class="mui-input-group">
+                                    <div class="mui-input-row">
+                                        <label class="label_l">数量</label>
+                                        <input type="number" placeholder="" class="num" id="numss" pattern="number" oninput="InputOnchange(this.id)" onkeyup="value=value.replace(/[^\d\.]/g,'')" autocomplete="off"/>
+                                        <label class="label_r_one">USDT</label>
+                                    </div>
+                                    <div class="mui-input-row">
+                                        <label class="label_l">金额</label>
+                                        <input type="number" placeholder="" class="num" id="moneyss" pattern="number" oninput="InputOnchange(this.id)" onkeyup="value=value.replace(/[^\d\.]/g,'')" autocomplete="off"/>
+                                        <label class="label_r_one">元</label>
+                                    </div>
+                                </form>
+                            </li>
+                            <li class="mui-table-view-cell">
+                                <div class="mui-button-row">
+                                    <button type="button" class="mui-btn btn_buy" onclick="sales()">立即出售</button>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="mui-table-view">
+                            <li class="mui-table-view-cell legend">
+                                <p class="first_p">出售說明</p>
+                                <div class="foot_index">
+                                    <p class="xhp">1、本OTC业务与第三方合作，如有问题请联系客服：saraesa1</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tabbar-with-contact" class="mui-control-content wallet">
+                <header class="mui-bar mui-bar-nav ">
+                    <h1 class="mui-title">钱包</h1>
+                    <a class=" mui-icon mui-icon-right-nav mui-pull-right" onclick="tocoin()">
+                        <img src="images/recording.png" >
+                    </a>
+                </header>
+                <div  class="mui-content">
+                    <ul class="mui-table-view  container">
+                        <li class="mui-table-view-cell row ">
+                            <div class="mui-col-xs-12 wallet_title">
+                                <span>总资产估值（元）</span>
+                                <img src="images/check.png" >
+                            </div>
+                        </li>
+                        <li class="mui-table-view-cell">
+                            <h2 id="wallet_money">0</h2>
+                            <h3 class="wallet_num">=<span id="wallet_nums">0</span>USDT</h3>
+                        </li>
+                        <li class="mui-table-view-cell mui-container wallet_coin">
+                            <div class="mui-row">
+                                <div class="mui-col-xs-6" id="c_coin_index">
+                                    <img src="images/cb.png" >
+                                    <span id="c_coin">充币</span>
+                                </div>
+                                <div class="mui-col-xs-6" id="t_coin_index">
+                                    <img src="images/tb.png" >
+                                    <span id="t_coin">提币</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul id="wallet_text">
+                        <li class="mui-table-view-cell wallet_text" >
+                            <p>USDT<span>（OMIN）</span></p>
+                            <div class="mui-container" >
+                                <div class="mui-row">
+                                    <div class="mui-col-xs-4 omin">
+                                        <p>可用</p>
+                                        <p id="index_balance" ></p>
+                                    </div>
+                                    <div class="mui-col-xs-4 omin">
+                                        <p>冻结</p>
+                                        <p id="freeze"></p>
+                                    </div>
+                                    <div class="mui-col-xs-4 omin">
+                                        <p>折合</p>
+                                        <p id="rmb"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+        <div id="tabbar-with-map" class="mui-control-content myself">
+            <header class="mui-bar mui-bar-nav ">
+                <h1 class="mui-title">我的</h1>
+                <div class="mui-row">
+                    <div class="mui-col-xs-12">
+                        <img src="images/user.png" class="user_img">
+                        <p id="phone_myself"></p>
+                    </div>
+                </div>
+            </header>
+            <ul class="mui-table-view myself_ul">
+                
+                <li class="mui-table-view-cell">
+                    <a href="html/main_order.html">
+                        <img src="images/myorder.png" >
+                        <span>我的订单</span>
+                    </a>
+                </li>
+                <li class="mui-table-view-cell" id="security_center">
+                    <a >
+                        <img src="images/security_center.png" >
+                        <span>安全中心</span>
+                    </a>
+                </li>
+                <li class="mui-table-view-cell" id="myMoney">
+                    <a >
+                        <img src="images/assets.png" >
+                        <span>联系我们</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell" id="toLogin">
+                    <a>
+                        <img src="images/retreat_safely.png" >
+                        <span>安全退出</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+	
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/mui.min.js" type="text/javascript"></script>
+    <script src="js/crypto-js.js" type="text/javascript"></script>
+    <script src="js/des.js" type="text/javascript"></script>
+    <script src="js/common.js?v=1.0.2" type="text/javascript"></script>
+	<script type="text/javascript">
+    
+		// 文本框获取焦点后执行的方法
+		$("input").focus(function(){
+		    $(this).parent().attr('style','border:1px solid #12D0B4;');
+		})
+		// 文本框失去焦点后执行的方法
+		$("input").blur(function(){
+		    $(this).parent().attr('style','border:1px solid #A2A2A2;');
+		})
+		var userIdss=getCookie("userId");
+		if (userIdss=='') {
+			// alert('尚未登录，请登录！')
+			window.location.href="html/login.html";
+		}
+		$.ajax({
+			type: "get",
+			crossDomain: true,
+			url:urls+'/api/v1/user/userAuth/'+userIdss,
+			dataType:'json',
+			success: function (res) {
+				if (res.code == 1) {
+					if(res.obj==''||res.obj==null){
+						setCookie("authentication",2);
+					}else{
+						setCookie("authentication",1);	
+					}
+				} 
+			},
+		})
+		$('#t_coin_index').click(function(){
+			window.location.href="html/t_coin.html";
+		})
+		$('#c_coin_index').click(function(){
+			window.location.href="html/c_coin.html";
+		})
+		$('#myMoney').click(function(){
+			window.location.href="html/call_us.html";
+		})
+		$('#toLogin').click(function(){
+			window.location.href="html/login.html";
+		})
+		function tocoin(){
+			window.location.href="html/coin_order.html";
+		}
+		$(function(){
+			$.ajax({
+				type: "get",
+				crossDomain: true,
+				url:urls+'/api/v1/account/queryUserAccount/'+userIds+'/CNY',
+				dataType:'json',
+				success: function (res) {
+					console.log(res);
+					if (res.code == 1) {
+						var usdtcny=getCookie("usdtToCny");
+						$('#wallet_money').html(res.obj.sum);
+						if(res.obj.sum==0||usdtcny==0){
+							$('#wallet_nums').html(0);
+            }else{
+							$('#wallet_nums').html(Math.round(res.obj.sum/usdtcny*100)/100);
+						}
+						
+						$('#wallet_nums').attr('style','margin-right:3px;');
+						var html = '';
+						for (var i in res.obj.accounts) {
+							if (res.obj.accounts[i].coinType==6) {
+								setCookie("address",res.obj.accounts[i].address);
+								setCookie("coinType",res.obj.accounts[i].coinType);
+								setCookie("balance",res.obj.accounts[i].balance);
+								$('#index_balance').html(res.obj.accounts[i].balance);
+								$('#freeze').html(res.obj.accounts[i].freeze);
+								$('#rmb').html(res.obj.accounts[i].rmb);
+							}	
+						}
+					} 
+				},
+			})
+		})
+		if (getCookie('index_money')==1) {
+			$('#main_wallet').addClass('mui-active');
+			$("#main_wallet").siblings().removeClass('mui-active');
+			$("#tabbar-with-contact").addClass('mui-active');
+			$("#tabbar-with-contact").siblings().removeClass('mui-active');
+			setCookie('index_money',0);
+		}else if(getCookie('index_money')==2){
+			$('#main_map').addClass('mui-active');
+			$("#main_map").siblings().removeClass('mui-active');
+			$("#tabbar-with-map").addClass('mui-active');
+			$("#tabbar-with-map").siblings().removeClass('mui-active');
+			setCookie('index_money',0);
+		}
+		$('#security_center').click(function(){
+			window.location.href="html/security_center.html";
+		})
+		$('#phone_myself').html(getCookie('phone'));
+		
+	</script>
+</body>
+</html>

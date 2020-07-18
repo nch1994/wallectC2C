@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>支付方式</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css?v=1.0.1">
+	<link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.pay_method #popover,.pay_method #popovers,.pay_method #popoverss {
+		    width: 90%;
+		    left: 5%;
+		    background: #fff;
+		    height: 380px;
+		}
+		/* 弹窗样式 */
+		 #pops {
+			width: 0px;
+			height: 0px;
+			background: red;
+			position: fixed;
+			top: 70%;
+			left: 50%;
+		}
+		
+		#popover,#popovers,#popoverss{
+			width: 90%;
+			left: 5%;
+			background: #fff;
+			height: 380px;
+		}
+		#popover .foot_title{
+			font-size: 18px;
+			color: #282633;
+			letter-spacing: 1.13px;
+		}
+		#popover .foot_title img{
+			vertical-align: middle;
+			width: 18px;
+			margin-bottom: 2px;
+		}
+		#popover .slogan{
+			color: #F5A623;
+			padding-left: 20px;
+		}
+		#f_title{
+			border-radius: 8px;
+			background: #fff;
+			box-shadow: 0 10px 10px 0 rgba(39,37,50,0.07);
+		}
+		#f_title div{
+			padding: 16px;
+		}
+		#f_title div:nth-child(2){
+			padding: 0 16px;
+		}
+		#order_money,#order_num{
+			float: right;
+		}
+		#f_middle{
+			padding:16px 16px 0;
+			color: #9A9A9A;
+			letter-spacing: 0.66px;
+			line-height: 24px;
+		}
+		#f_middle input{
+			border: 1px solid #DCDCDC;
+		    border-radius: 2px;
+		    height: 38px;
+		    margin-bottom: 5px;
+		}
+		#f_middle input::-webkit-input-placeholder {
+			font-size: 14px;
+			color: #B4B4B4;
+			letter-spacing: 0.66px;
+		}
+		#f_middle span{
+			padding-left: 20px;
+			font-size: 14px;
+		}
+		#f_middle p{
+			width: 100%;
+			color: #E6001C;
+		}
+		.tools{
+			font-size: 14px;
+			color: #282633;
+			letter-spacing: 0.66px;
+			width: 90%!important;
+		}
+		.f_tools{
+			margin-top: 36px;
+		}
+		#f_footer{
+			text-align: center;
+		}
+		#f_footer button{
+			background-image: linear-gradient(135deg, #0AB2E7 0%, #1CEAB0 100%);
+			border-radius: 20px;
+			color: #fff;
+			border: transparent;
+			width: 90%;
+			padding: 0 16px;
+			height: 40px;
+		}
+		#f_footer p{
+		    padding: 16px;
+			text-align: left;
+			font-size: 12px;
+			color: #8B9090;
+			letter-spacing: 0.57px;
+		}
+		#f_title .foot_title span{
+			font-size: 18px;
+		}
+		#f_title span{
+			font-size: 14px;
+		}
+		.mui-input-row label{
+			padding: 21px 10px;
+			width: 90%;
+		}
+		.legends div:first-child p{
+			font-size: 14px;
+			color: #18191D;
+			font-weight: bold;
+			margin-left: 0;
+			margin-bottom: 5px;
+		}
+		.mui-table-view-cell{
+			padding: 11px 10px;
+		}
+		.mui-button-row{
+			padding-top: 10px;
+		}
+		.pay_num{
+			margin-left: 28px;
+		}
+		
+	</style>
+</head>
+<body class="pay_method">
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="returns()"></a>
+		<h1 class="mui-title">请选择支付方式</h1>
+	</header>
+	<div class="mui-content">
+		<div id="h_title"></div>
+		<div class="mui-card">
+			<form class="mui-input-group" id="payform">
+				<div class="mui-input-row mui-radio" id="topay_bank">
+					<label id="bank_label"><img src="../images/yinhangqia.png" id="bank_img"><span id="bank_span">银行卡支付</span>
+					</label>
+					<input name="pays" type="radio"  value="1" id="bank_pay" checked="checked" >
+				</div>
+				
+				<div class="mui-input-row mui-radio">
+					<label id="zf_label"><img src="../images/zhifubao.png"><span>支付宝</span>
+					</label>
+					<input name="pays" type="radio" value="2" id="payzf">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label id="wx_label"><img src="../images/weixin.png"><span>微信支付</span>
+					</label>
+					<input name="pays" type="radio" value="3" id="paywx">
+				</div>
+				<div class="mui-input-row mui-radio" >
+					<label><img src="../images/kuaijie.png" ><span>快捷通道</span><span class="uspend_opening">暂未开通</span>
+					</label>
+					<input name="pays" type="radio" value="4" id="quick_pay" disabled="disabled">
+				</div>
+			</form>
+			<div class="mui-table-view-cell foot_methods">
+				<div>
+					<p>注意</p>
+				</div>
+				<div id="" class="foot_index">
+					<p>1.如有大额交易需求可直接联系客服微信：saraesa1</p>
+					<p>2.根据中国法律规定，虚拟货币不具有法偿性与强制性等货币属性，购买代表中国用户已知晓相关法律问题，愿自担相关风险</p>
+				</div>
+			</div>
+			<div class="mui-input-group paying">
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn btn_pay" id="btn_pays" >
+						去支付
+					</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div id="pops"></div>
+	<div id="popover" class="mui-popover">
+		<div class="mui-popover-arrow"></div>
+		<div id="f_title">
+			<div class="foot_title">
+				<img src="../images/bankcards.png" alt="">
+				<span>银行卡支付</span>
+			</div>
+			<div >
+				<span>订单金额</span>
+				<span id="order_money"></span>
+			</div>
+			<div>
+				<span class="pay_num">数量</span>
+				<div style="float: right;padding-right: 0">
+					<span id="order_num" style="float: left;"></span>
+					<span style="float: right;margin-left: 5px;">USDT</span>
+				</div>
+				
+			</div>
+		</div>
+		<div id="f_middle">
+			<input type="text" placeholder="请输入付款人姓名" name="pay_name" id="pay_name">
+			<p>*请输入您用于转账的银行卡对应的姓名，并确保所输姓名与实际付款账户一致，否则将导致您的资金损失</p>
+		</div>
+		<div id="f_footer">
+			<button type="button" class="mui-btn"  onclick="btn_pays()" id="btn_payss">去支付<span id="span_money"></span></button>
+			<p>注：所有承兑商已通过Senna Wilson Ltd认证 并抵押保证金，请放心兑换</p>
+		</div>
+	</div>
+	<div id="popovers" class="mui-popover">
+		<div class="mui-popover-arrow"></div>
+		<div id="f_title">
+			<div class="foot_title">
+				<img src="../images/zhifubao2@3x.png" style="width: 20px;vertical-align: bottom;" alt="">
+				<span>支付宝支付</span>
+			</div>
+			<div >
+				<span>订单金额</span>
+				<span id="order_moneys" style="float: right;"></span>
+			</div>
+			<div>
+				<span class="pay_num">数量</span>
+				<div style="float: right;padding-right: 0">
+					<span id="order_nums" style="float: left;"></span>
+					<span style="float: right;margin-left: 5px;">USDT</span>
+				</div>
+			</div>
+		</div>
+		<div id="f_middle">
+			<input type="text" placeholder="请输入支付宝姓名" name="pay_names" id="pay_names">
+			<p>*请输入您用于支付的支付宝对应的姓名，并确保所输姓名与实际付款账户一致，否则将导致您的资金损失</p>
+		</div>
+		<div id="f_footer">
+			<button type="button" class="mui-btn"  onclick="btn_pays()" id="btn_payss">去支付<span id="span_moneys"></span></button>
+			<p>注：所有承兑商已通过Senna Wilson Ltd认证 并抵押保证金，请放心兑换</p>
+		</div>
+	</div>
+	<div id="popoverss" class="mui-popover">
+		<div class="mui-popover-arrow"></div>
+		<div id="f_title">
+			<div class="foot_title">
+				<img src="../images/weixin2@3x.png" width="20" alt="">
+				<span>微信支付</span>
+			</div>
+			<div >
+				<span>订单金额</span>
+				<span id="order_moneyss" style="float: right;"></span>
+			</div>
+			<div>
+				<span class="pay_num">数量</span>
+				<div style="float: right;padding-right: 0">
+					<span id="order_numss" style="float: left;"></span>
+					<span style="float: right;margin-left: 5px;">USDT</span>
+				</div>
+			</div>
+		</div>
+		<div id="f_middle">
+			<input type="text" placeholder="请输入您的微信昵称" name="pay_namess" id="pay_namess">
+			<p>*请输入您用于支付的微信昵称，并确保所输昵称与实际付款账户一致，否则将导致您的资金损失</p>
+		</div>
+		<div id="f_footer">
+			<button type="button" class="mui-btn"  onclick="btn_pays()" id="btn_payss">去支付<span id="span_moneyss"></span></button>
+			<p>注：所有承兑商已通过Senna Wilson Ltd认证 并抵押保证金，请放心兑换</p>
+		</div>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			userPayWay();
+			$('input[type=radio][name=pays]').change(function() {
+				if (this.value == 1) {
+					$("#bank_pay").attr("checked","checked");
+					$("#payzf").removeAttr("checked");
+					$("#paywx").removeAttr("checked");
+					$("#zf_label").html('<img src="../images/zhifubao.png"><span>支付宝</span>');
+					$("#bank_label").html('<img src="../images/yinhangqia.png" id="bank_img"><span id="bank_span">银行卡支付</span>');
+					$("#wx_label").html('<img src="../images/weixin.png"><span>微信支付</span>');
+				}
+				else if (this.value == 2) {
+					$("#bank_pay").removeAttr("checked");
+					$("#payzf").attr("checked","checked");
+					$("#paywx").removeAttr("checked");
+					$("#zf_label").html('<img src="../images/zhifubao_1.png"><span style="color:#12D0B4;opacity: 1;">支付宝</span>');
+					$("#bank_label").html('<img src="../images/yinhangqia3.png" id="bank_img" style="opacity:0.2;"><span id="bank_span" style="color: #282633;opacity: 0.2;">银行卡支付</span>');
+					$("#wx_label").html('<img src="../images/weixin.png"><span>微信支付</span>');
+				}else{
+					$("#bank_pay").removeAttr("checked");
+					$("#payzf").removeAttr("checked");
+					$("#paywx").attr("checked","checked");
+					$("#wx_label").html('<img src="../images/weixin_1.png"><span style="color:#12D0B4;opacity: 1;">微信支付</span>');
+					$("#zf_label").html('<img src="../images/zhifubao.png"><span>支付宝</span>');
+					$("#bank_label").html('<img src="../images/yinhangqia3.png" id="bank_img" style="opacity:0.2;"><span id="bank_span" style="color: #282633;opacity: 0.2;">银行卡支付</span>');
+				}
+			});
+			$("#span_money").text(theRequest.orderAmount+"元");
+			$("#order_money").text(theRequest.orderAmount+"元");
+			$("#order_num").text(theRequest.nums);
+			$("#span_moneys").text(theRequest.orderAmount+"元");
+			$("#order_moneys").text(theRequest.orderAmount+"元");
+			$("#order_nums").text(theRequest.nums);
+			$("#span_moneyss").text(theRequest.orderAmount+"元");
+			$("#order_moneyss").text(theRequest.orderAmount+"元");
+			$("#order_numss").text(theRequest.nums);
+		});
+		document.getElementById("btn_pays").addEventListener("tap", function() {
+			//调用隐藏/显示弹出层
+			
+			var numbers=$('input:radio[name="pays"]:checked').val();
+			var banks=getCookie("paybank");
+			var payzfs=getCookie("payzf");
+			var paywxs=getCookie("paywx");
+			if (numbers==1) {
+				if (banks==1) {
+					mui("#popover").popover('toggle', document.getElementById("pops"));
+				}else{
+					alert('承兑暂不支持银行卡支付');
+				}
+			}else if(numbers==2){
+				if (payzfs==1) {
+					mui("#popovers").popover('toggle', document.getElementById("pops"));
+				}else{
+					alert('承兑暂不支持支付宝支付');
+				}
+				
+			}else{
+				if (paywxs==1) {
+					mui("#popoverss").popover('toggle', document.getElementById("pops"));
+				}else{
+					alert('承兑暂不支持微信支付');
+				}
+				
+			}
+			
+		})	
+	</script>
+</body>
+</html>

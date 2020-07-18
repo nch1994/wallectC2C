@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>确认出售</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css?v=1.0.0">
+	<link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.change::-webkit-input-placeholder {
+			color: red;
+		}
+	</style>
+</head>
+<body class="check_sales">
+	<header class="mui-bar mui-bar-nav">
+		<a class=" mui-icon mui-icon-left-nav mui-pull-left" id="toreturn"></a>
+	</header>
+	<div class="mui-content">
+		<div id="h_title">
+			<div class="mh_title">
+				<span class="p_pay check_sale" >确认出售信息</span>
+			</div>
+		</div>
+		<div class="mui-card">
+			<div class="mh_mid mui-row">
+				<div class="mh_price mui-col-xs-6">
+					<p>
+						<span class="mh_middle ">单价:</span>
+						<span class="mh_mids" id="one_ratess"></span>
+					</p>
+					<p>
+						<span class="mh_middle">数量:</span>
+						<span class="mh_mids" id="mh_midss"></span>
+						<span style="margin-left: 5px">USDT</span>
+					</p>
+				</div>
+				<div class="mui-col-xs-6">
+					<img src="../images/taidabi-2.png" alt="">
+				</div>
+			</div>
+			<input type="hidden" name="balance" value="">
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<div>
+						<img src="../images/report.png" alt="">
+						<span class="p_pay">填写收款信息</span>
+					</div>
+					<label>
+						<span class="star">*</span>收款姓名：
+					</label>
+					<input type="text" placeholder="请输入或长按粘贴" id="checkname" autocomplete="off"/>
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label id="checkbanks">
+						<span class="star">*</span>收款银行：
+					</label>
+					<input type="text" placeholder="请输入或长按粘贴" id="checkbank" autocomplete="off"/>
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label id="bankno">
+						<span class="star">*</span>银行卡号：
+					</label>
+					<input type="text" placeholder="请输入或长按粘贴" id="checkno" autocomplete="off"/>
+				</div>
+				<div class="mui-input-row mui-radio">
+					<div id="pay_btn">
+						<button type="button" class="mui-btn pays" id="saled"  disabled="disabled">确认出售</button>
+					</div>
+					<div class="mui-table-view-cell check_legends">
+						<div>
+							<p>注意</p>
+						</div>
+						<div id="">
+							<p>1.请确认输入收款信息正确，输入错误可能造成资金损失</p>
+							<p>2.根据中国法律规定，虚拟货币不具有法偿性与强制性等货币属性，购买代表中国用户已知晓相关法律问题，愿自担相关风险</p>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		$("#customerId").text(theRequest.customerId);
+		$('#paybank_money').text("¥"+theRequest.orderAmount);
+		$("#mh_midss").text(theRequest.nums);
+		$("#customerIds").text("("+theRequest.customerId+")");
+		$("input").bind("input propertychange change",function(event){		
+			var checkname = $("#checkname").val().trim().length;
+			var checkbank = $("#checkbank").val().trim().length;
+			var checkno = $("#checkno").val().trim().length;
+			if(checkname > 0 && checkbank > 0&& checkno>0){
+				$('#saled').removeAttr("disabled");
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>订单详情（出售）</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.mh_price{
+			margin-top: 0.875rem;
+		}
+		.order_buy .mui-input-group .mui-input-row {
+		    height: 3.375rem;
+		}
+		.order_buy .mui-input-group .mui-radio:last-child {
+		    height: 11.625rem;
+		}
+		.order_buy .mui-input-group .mui-radio:last-child::after{
+			display: none;
+		}
+		.order_buy .mui-input-row .inputs,
+		.order_buy #pay_accounts{
+		    width: 64%!important;
+		}
+		.mui-input-group .mui-radio:first-child div img{
+			margin-bottom: 0.125rem;
+		}
+	</style>
+</head>
+<body class="order_buy">
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="toOrder()"></a>
+		<h1 class="mui-title">订单详情</h1>
+	</header>
+	<input type="hidden" name="orderId" value="">
+	<div class="mui-content">
+		<div id="h_title">
+			<div class="mh_title">
+				<p class="p_pay check_sale" >wallet c2c 收银台</p>
+				<p>您出售的USDT已在平台系统完成托管锁定，确保您的资金安全</p>
+			</div>
+		</div>
+		<div class="mui-card">
+			<div class="mh_mid mui-row">
+				<div class="mh_price mui-col-xs-8">
+					<p>
+						<span class="mh_middle">出售数额:</span>
+						<span class="mh_mids" id="mh_nums"></span>
+						<span style="margin-left: 3px;">USDT</span>
+					</p>
+					<p>
+						<span class="mh_middle ">交易总额:</span>
+						<span class="mh_mids" id="one_moneys"></span>
+					</p>
+				</div>
+				<div class="mui-col-xs-4">
+					<img src="../images/taidabi-2.png" alt="">
+				</div>
+			</div>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<div>
+						<img src="../images/yinhangqia-2.png" alt="">
+						<span class="p_pay">收款信息</span>
+					</div>
+					<label>
+						收款姓名：
+					</label>
+					<label class="inputs" id="payee">
+						
+					</label>
+					
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>
+						收款银行：
+					</label>
+					<label class="inputs" id="payee_bank">
+						
+					</label>
+				</div>	
+				<div class="mui-input-row mui-radio">
+					<label>
+						银行卡号：
+					</label>
+					<label class="inputs" id="pay_account">	
+					</label>
+					
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>
+						交易状态：
+					</label>
+					<label class="inputs" id="pay_accounts">	
+					</label>
+					
+				</div>
+				<div class="mui-input-row mui-radio">
+					<div>
+						<p>交易安全须知</p>
+					</div>
+					<div>
+						<p>1.请确保您输入的收款信息准确无误，避免造成损失</p>
+						<p>2.北京时间17：00后，跨行转账金额需小于5万元</p>
+						<p>3.如有交易问题可直接联系客服微信：saraesa1</p>
+					</div>	
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js"></script>
+	<script type="text/javascript">
+		$("#customerId").text(theRequest.customerId);
+		$("#mh_nums").text(theRequest.usdtAmount);
+		$("#one_moneys").text(theRequest.cnyAmount+"元");
+		$("#customerIds").text("("+theRequest.customerId+")");
+		$.ajax({
+			type: "get",
+			url:urls+"/api/v1/coinBasin/tradeStatus/"+theRequest.orderNo,
+			dataType: 'json',
+			success: function (res) {
+				console.log(res);
+				$('#payee').html(res.obj.name);
+				$('#payee_bank').html(res.obj.bankName);
+				$('#pay_account').html(res.obj.cardNo);
+				$("#pay_accounts").html(res.obj.status);
+			}
+		})
+	</script>
+</body>
+</html>

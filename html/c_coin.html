@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>充币</title>
+    <link rel="icon" href="../images/group3.png" >
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/adaptation.css">
+</head>
+<body>
+	<div class="mui-content coin_main" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" onclick="toIndex_money()"></a>
+			<h1 class="mui-title">USDT（Omni）充币</h1>
+		</header>
+		<div id="" class="mui-content" style="padding-top: 42px!important">
+			<ul class="mui-table-view  container">
+				<li class="mui-table-view-cell mui-container coin_title">
+					<div class="mui-row">
+						<div class="mui-col-xs-12">
+							<img src="../images/coin_title.png" >
+							<span>USDT（Omni）充币</span>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell qr_code">
+					<div id="qrcode"></div>
+				</li>
+				<li class="mui-table-view-cell coin_address">
+					<p class="ads">充币地址</p>
+					<div class="mui-container">
+						<div class="mui-row">
+							<div class="mui-col-xs-1">
+								<img src="../images/safety.png" alt="">
+							</div>
+							<div class="mui-col-xs-9">
+								<p id="coin_address"></p>
+							</div>
+							<div class="mui-col-xs-2">
+								<a type="button" data-clipboard-action="copy" data-clipboard-target="#coin_address" id="adress_copy" onclick="copyText('adress_copy','coin_address')">复制</a>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<p class="note">注意</p>
+					<p class="notes">此地址只接收USDT（Omni），发送其它币种到此地址将无法找回</p>
+				</li>
+			</ul>
+		</div>				
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/jquery.qrcode.min.js"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		$("#coin_address").html(getCookie("address"));
+		$('#qrcode').qrcode(getCookie("address"));
+	</script>
+</body>
+</html>

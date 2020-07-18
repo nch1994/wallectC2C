@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>我的订单(购买)</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/adaptation.css">
+</head>
+<body class="myorder_buy">
+	<div class="mui-content" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="returns()"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div id="" class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell logos">
+					<img src="../images/zhuanzhang.png" width="115" alt="" id="myorder_img">
+					<p id="myorder_slogan">承兑商确认中，请稍后</p>
+				</li>
+				<li class="safety_line"></li>
+				<li class="mui-table-view-cell">
+					<span>订单号</span>
+					<span id="">
+						:
+					</span>
+					<div class="orderno">
+						<span id="order_no">
+						
+						</span>
+						<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#order_no" id="order_no_copy" onclick="copyText('order_no_copy','order_no')">
+					</div>
+					
+				</li>
+				<li class="mui-table-view-cell">
+					<span>购买数量</span>
+					<span id="">
+						:
+					</span>
+					<div style="float: right;">
+						<span id="ordernum">
+						
+						</span>
+						<span style="margin-left: 4px;display: contents;">USDT</span>
+					</div>
+					
+				</li>
+				<li class="mui-table-view-cell myorder_num">
+					<span>购买价格</span>
+					<span id="">
+						:
+					</span>
+					<div style="float: right;">
+						<span id="ordermoneys">
+						</span>
+						<span style="margin-left: 4px;display: contents;">CNY</span>
+					</div>
+					
+				</li>
+			</ul>
+			<button type="" class="mui-btn pays" id="check_orderss">查看详情</button>
+			<div class="mui-table-view-cell safety_foot">
+				<div>
+					<p>注意</p>
+				</div>
+				<div id="">
+					<p>1、承兑商视网络和银行系统情况,确认到账时间一般在20-60分钟</p>
+					<p>2、若未及时到账，可联系客服微信：saraesa1</p>
+				</div>
+			</div>
+		</div>			
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js"></script>
+	<script type="text/javascript">
+		$('#order_no').text(theRequest.orderId);
+		$('#ordernum').text(theRequest.nums);
+		$('#ordermoneys').text(theRequest.orderAmount);
+		$('#check_orderss').click(function(){
+			window.location.href="main_order.html?"+encryptByDESModeCBC("orderId="+theRequest.orderId+"&userId="+theRequest.userId);
+		})
+		var orderId=getCookie('orderId');
+		$.ajax({
+			type: "get",
+			url:urls+"/api/v1/coinBasin/tradeStatus/"+orderId,
+			dataType: 'json',
+			success: function (res) {
+				console.log(res);
+				if (res.code==1) {
+					if (res.obj.status=="交易完成") {
+						$('#myorder_slogan').html('商家已确认，请查收！');
+						$('#myorder_img').attr('src','../images/success_myorder.png');
+
+					}else if(res.obj.status=="商家取消"){
+						$('#myorder_slogan').html('商家已拒绝！');
+						$('#myorder_img').attr('src','../images/fail_myorder.png');
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

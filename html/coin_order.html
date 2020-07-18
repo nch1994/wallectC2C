@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>钱包记录</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.coin_order_title {
+		    margin: 15px 15px 10px;
+		    font-size: 16px;
+		    color: #000000;
+		    letter-spacing: 0.75px;
+		}
+	</style>
+</head>
+<body >
+	<div class="mui-content main_order" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" onclick="toIndex_money()"></a>
+			<h1 class="mui-title">钱包记录</h1>
+		</header>
+		<div class="mui-content">
+			<p class="coin_order_title">USDT（Omni）</p>
+			<div id="orders" >
+				
+			</div>
+		</div>			
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		$.ajax({
+			url : urls+ "/api/v1/account/coinDetails/6/"+userIds+"/CNY",
+			type :'get',
+			dataType: 'json',
+			success : function(res){
+				console.log(res);
+				if (res.code==1) {
+					var html = '';
+					for (var i in res.obj.records) {
+						var amount_str="'"+res.obj.records[i].amount+"'";
+						var address_str="'"+res.obj.records[i].address+"'";
+						var createTime_str="'"+res.obj.records[i].createTime+"'";
+						var tx_str="'"+res.obj.records[i].tx+"'";
+						html +=
+						'<ul class="mui-table-view">'+
+							'<li class="mui-table-view-cell" onclick="checks('+amount_str+','+address_str+','+createTime_str+','+tx_str+')">'+
+								'<div class="mui-container myorder">'+
+									'<div class="mui-row">'+
+										'<div class="mui-col-xs-1">'+(changeimg(res.obj.records[i].amount))+'</div>'+
+										'<div class="mui-col-xs-9" style="padding-left:6px;">'+
+											'<p style="color:#000;"><span>'+(types(res.obj.records[i]))+'</span><span style="margin:0 10px;">'+(amount(res.obj.records[i].amount))+'</span><span>USDT</span></p>'+
+											'<p style="font-size: 10px;color: #8B9090;"><span>'+res.obj.records[i].createTime+'</span></p>'+
+										'</div>'+
+										'<div class="mui-col-xs-2" style="height:42px;">'+(statuss(res.obj.records[i]))+'</div>'+
+									'</div>'+
+								'</div>'+
+							'</li>'+
+						'</ul>'
+					}
+					$('#orders').html(html);
+				}			
+			}
+		});
+		function changeimg(res){
+			var bak = '<img src="../images/group3.png">';
+			if(res>0){
+				bak = '<img src="../images/group3.png">';
+			}else if(res<0){
+				bak = '<img src="../images/group4.png">';
+			}
+			return bak;
+		}
+		function types(res){
+			var bak = '';
+			if(res.amount>0){
+				bak += '充币';
+			}else if(res.amount<0){
+				bak += '提币';
+			}
+			return bak;
+		}
+		function checks(amount_str,address_str,createTime_str,tx_str){
+			if (amount_str>0) {
+				window.location.href="coin_order_c.html?"+encryptByDESModeCBC("amount_str="+amount_str+"&address_str="+address_str+"&createTime_str="+createTime_str+"&tx_str="+tx_str);
+			}else if(amount_str<0){
+				window.location.href="coin_order_t.html?"+encryptByDESModeCBC("amount_str="+amount_str+"&address_str="+address_str+"&createTime_str="+createTime_str+"&tx_str="+tx_str);
+			}
+		}
+		function amount(amount){
+			var bak=Math.round(amount*100)/100;
+			return bak;
+		}
+
+		function statuss(res){
+			var bak = '';
+			if (res.tx == ''||res.tx == 'error') {
+				bak += '<span style="color: #8B9090 ;line-height: 42px;font-size:10px;">账户异常</span>';
+			}else{
+				if(res.amount>0){
+					bak += '<span style="color: #12D0B4;line-height: 42px;font-size:10px;">已完成</span>';
+				}else if(res.amount<0){
+					bak += '<span style="color: #F5A623;line-height: 42px;font-size:10px;">已完成</span>';
+				};
+				
+			}
+			return bak;
+		}
+	</script>
+</body>
+</html>

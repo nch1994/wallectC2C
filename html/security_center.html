@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>安全中心</title>
+    <link rel="icon" href="../images/group3.png" >
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.mui-table-view:before,
+		.mui-table-view:after{
+			display: none;
+		}
+		ul li{
+			height: 3.75rem;
+		}
+		ul li a{
+			line-height: 2.375rem;
+		}
+		#recharge_ps:after{
+			opacity: 0!important;
+		}
+	</style>
+</head>
+<body>
+	<div class="mui-content safety_center" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="toIndex_myself()" ></a>
+			<h1 class="mui-title">安全中心</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" disabled="disabled">
+					<a class="">
+						<span>收款方式</span>
+						<div class="safety_ps">
+							<span></span>
+							<span>暂未开通</span>
+							<img src="../images/you.png" >
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="authentication">
+					<a>
+						<span>身份认证</span>
+						<div class="safety_ps">
+							<img src="../images/you.png" >
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="recharge_ps">
+					<a>
+						<span>资金密码</span>
+						<div class="safety_ps" id="password">
+							<span></span>
+							<span id="checkeds">未设置</span>
+							<img src="../images/you.png" >
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="downapp" style="display: none;">
+					<a>
+						<span>下载APP</span>
+						<div class="safety_ps">
+							<img src="../images/you.png">
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>			
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.1"></script>
+	<script type="text/javascript">
+		if(getCookie("authentication")==1){
+			$("#authentication").attr("style","display:none");
+    }
+    if(theRequest.payPassword!="null"){
+      setCookie("PayPassword",theRequest.paypwdss);
+      $('#password').attr('style','display:none;')
+    }
+	</script>
+</body>
+</html>

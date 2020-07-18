@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>订单详情（购买）</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.order_buy #pay_accounts,#timer{
+		    width: 63%!important;
+		}
+		#timer span{
+			color: #12D0B4;
+		}
+		#paytimes p{
+			font-size: 10px;
+			color: red;
+			width: 100%;
+			text-align: left;
+			padding: 0 15px;
+		}
+		
+	</style>
+</head>
+<body class="order_buy">
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="toOrder()"></a>
+		<h1 class="mui-title">订单详情</h1>
+	</header>
+	<input type="hidden" name="orderId" value="">
+	<div class="mui-content">
+		<div id="h_title">
+			<div class="mh_title">
+				<p class="p_pay check_sale" >wallet c2c 收银台</p>
+				<p>您购买的USDT已在平台系统完成托管锁定，确保您的资金安全</p>
+			</div>
+			
+		</div>
+		<div class="mui-card">
+			<div class="mh_mid mui-row">
+				<div class="mh_price mui-col-xs-11">
+					<p>
+						<span class="mh_middle">购买数额:</span>
+						<span class="mh_mids" id="mh_midss"></span>
+						<span>USDT</span>
+					</p>
+					<p>
+						<span class="mh_middle ">交易总额:</span>
+						<span class="mh_mids" id="all_midss" style="color: red;"></span>
+					</p>
+					<p style="font-size: 10px;width: 15.625rem;">(请确认交易金额，金额不正确会造成资金损失)</p>
+					
+				</div>
+				<div class="mui-col-xs-1">
+					<img src="../images/taidabi-2.png" alt="">
+				</div>
+			</div>
+			<form class="mui-input-group" style="margin-bottom: 0.625rem;">
+				<div class="mui-input-row mui-radio">
+					<div>
+						<img src="../images/yinhangqia-2.png" alt="">
+						<span class="p_pay">银行卡支付</span>
+					</div>
+					<label>
+						承兑姓名：
+					</label>
+					<label class="inputs" id="payee">
+						
+					</label>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#payee" id="payee_copy" onclick="copyText('payee_copy','payee')">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>
+						收款银行：
+					</label>
+					<label class="inputs" id="payee_bank">
+						
+					</label>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#payee_bank" id="payee_bank_copy" onclick="copyText('payee_bank_copy','payee_bank')">
+				</div>	
+				<div class="mui-input-row mui-radio">
+					<label>
+						银行卡号：
+					</label>
+					<label class="inputs" id="pay_account">	
+					</label>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#pay_account" id="pay_account_copy" onclick="copyText('pay_account_copy','pay_account')">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>
+						交易状态：
+					</label>
+					<label class="inputs" id="pay_accounts">
+					</label>
+				</div>
+				<div class="mui-input-row mui-radio" id="paytimes" style="display: none;">
+					<label>
+						付款倒计时：
+					</label>
+					<label class="inputs" id="timer">
+						<span class="dingshi"></span>
+						<span>:</span>
+						<span class="dingshi"></span>	
+					</label>
+					<p>请于付款倒计时内进行确认支付，否则订单超时将自动取消！</p>
+				</div>
+				<div class="mui-input-row mui-radio" id="check_order_buy" style="display: none">
+					<div id="pay_btn">
+						<button type="button" class="mui-btn pays" id="tocheck_paying">确认支付</button>
+						<button type="button" class="mui-btn pays" id="cancel_order" style="opacity: 0.29;">取消订单</button>
+					</div>
+				</div>
+				<div class="mui-input-row mui-radio" id="report_text">
+					<div>
+						<p>交易安全须知</p>
+					</div>
+					<div>
+						<p>1.如有大额交易需求可直接联系客服微信：saraesa1</p>
+					</div>	
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="pops"></div>
+	<div id="popover" class="mui-popover" style="height: 250px;">
+		<div class="mui-popover-arrow"></div>
+		<div id="f_title">
+			<p class="foot_title">确定取消交易？</p>
+			<p class="slogan">如果您已经向卖家付款，请千万不要取消交易</p>
+		</div>
+		<div id="f_middle">
+			<span id="">
+				取消规则：
+			</span>
+			<p>买家当日累计3笔取消，会限制当日买入功能</p>
+		</div>
+		<div class="mui-input-row mui-radio mui-left f_tools">
+			<input name="radios" type="radio" id="radios">
+			<label class="tools">我确认还没有付款给对方</label>
+		</div>
+		<div id="f_footer">
+			<button type="button" class="mui-btn " onclick="f_close()">我再想想</button>
+			<button type="button" class="mui-btn "  id="f_close" onclick="f_closess()" disabled="disabled">确定</button>
+		</div>
+	</div>
+	<div id="popovers" class="mui-popover">
+		<div class="mui-popover-arrow"></div>
+		<img src="../images/ordertime.png" alt="">
+		<p>您的订单已取消</p>
+		<button type="button" onclick="returns()">确认</button>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js"></script>
+	<script type="text/javascript">
+		document.getElementById("cancel_order").addEventListener("tap", function() {
+			//调用隐藏/显示弹出层
+			mui("#popover").popover('show', document.getElementById("pops"));
+		})
+		$("#customerId").text(theRequest.customerId);
+		$('#paybank_money').text("¥"+theRequest.orderAmount);
+		$("#mh_midss").text(theRequest.usdtAmount);
+		$("#customerIds").text("("+theRequest.customerId+")");
+		$("#all_midss").text(theRequest.cnyAmount+"元");
+		var old = null; //用来保存原来的对象
+		$("input[name='radios']").each(function(){//循环绑定事件  
+			if(this.checked){  
+				old = this; //如果当前对象选中，保存该对象  
+			}  
+			this.onclick = function(){  
+				if(this == old){//如果点击的对象原来是选中的，取消选中  
+					this.checked = false;
+					$('#f_close').attr("disabled","disabled");
+					$('#f_close').attr('style','opacity: 0.29;background: #282633;')
+					old = null;  
+				} else{ 
+					this.checked = true;
+					$('#f_close').removeAttr("disabled");
+					$('#f_close').attr('style','background-image: linear-gradient(135deg, #0AB2E7 0%, #1CEAB0 100%);;opacity:1')
+					old = this;  
+				}  
+			}  
+		});  
+		$.ajax({
+			type: "get",
+			url:urls+"/api/v1/coinBasin/tradeStatus/"+theRequest.orderId,
+			dataType: 'json',
+			success: function (res) {
+				if (res.code==1) {
+					console.log(res);
+					setCookie("times", res.obj.countDown);
+
+					$('#payee').html(res.obj.name);
+					$('#payee_bank').html(res.obj.bankName);
+					$('#pay_account').html(res.obj.cardNo);
+					$("#pay_accounts").html(res.obj.status);
+					if (res.obj.status=="等待用户付款") {
+						$('#check_order_buy').removeAttr("style","display:none");
+						// $('#report_text').attr("style","display:none");
+						$('#paytimes').removeAttr("style","display:none;");
+						$('#paytimes').attr("style","height:100px;");
+					}else{
+						$('#check_order_buy').attr("style","display:none");
+					}
+				}
+			}
+		})
+		$('#tocheck_paying').click(function(){
+			$.ajax({
+				type: "get",
+				url:urls+"/api/v1/coinBasin/otcPayment/"+theRequest.orderId,
+				dataType: 'json',
+				success: function (res) {
+					if (res.code==1) {
+						window.location.href="myOrder_buy.html?"+encryptByDESModeCBC("orderId="+theRequest.orderId+"&orderAmount="+theRequest.cnyAmount+"&nums="+theRequest.usdtAmount+"&userId="+userIds);
+					}else{
+						alert(res.msg);
+					}
+				}
+			})
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>提币</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css?v=1.0.0">
+	<link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		#popover{
+			height: 18.75rem;
+		}
+		#getcodes{
+		    border: none!important;font-size: 0.875rem!important;
+		    color: #fff!important;
+		    letter-spacing: 0.66px;
+		    float: right!important;
+			width: 6.875rem!important;
+		    padding: 2px 0;
+		    text-align: center;
+			background-image: linear-gradient(135deg, #0AB2E7 0%, #1CEAB0 100%);
+			border-radius: 15.5px!important;
+		}
+	</style>
+</head>
+<body>
+	<div class="mui-content t_coin_main" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="toIndex_money()"></a>
+			<h1 class="mui-title">提币</h1>
+		</header>
+		<div id="" class="mui-content">
+			<ul class="mui-table-view  container">
+				<li class="mui-table-view-cell t_coin">
+					<div class="mui-container">
+						<div class="mui-row">
+							<div class="mui-col-xs-1">
+								<img src="../images/Group_3.png" alt="" width="54">
+							</div>
+							<div class="mui-col-xs-10">
+								<p><span class="t_coin_money">USDT钱包</span></p>
+								<p class="t_balance">余额<span id="balances"></span>&nbsp;USDT</p>
+							</div>
+						</div>
+						<div class="mui-row t_group">
+							<div class="mui-col-xs-1">
+								<img src="../images/Group_2.png" alt="" width="54">
+							</div>
+							<div class="mui-col-xs-10" style="margin-top: 2px!important;">
+								<input type="" name="" id="t_coin_address" value="" placeholder="输入或长按粘贴地址" style="height: 35px;width: 90%!important;"/>
+						
+								<img src="../images/Group.png" style="margin-top: 10px;">
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view  container">
+				<li class="t_coin_line"></li>
+			</ul>
+			<ul class="mui-table-view  container t_footer">
+				<li class="mui-table-view-cell">
+					<div class="t_coin_foot foots">
+						<p>USDT提币数量</p>
+						<input type="text" name="" placeholder="(最小可提：5 USDT)" id="t_nums">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="t_coin_foot">
+						<p>手续费</p>
+						<p style="font-size: 0.875rem;"><span id="servicePrice"></span><span>&nbsp;USDT</span></p>
+					</div>						
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="t_coin_foot">
+						<p>实际到账</p>
+						<p style="font-size: 0.875rem;"><span id="realmoney"></span><span>&nbsp;USDT</span></p>
+					</div>
+				</li>
+			</ul>
+			<ul class="mui-table-view  container footers">
+				<li class="mui-table-view-cell">
+					<button type="button" id="nextstep" disabled="disabled">下一步</button>
+				</li>
+			</ul>
+		</div>			
+	</div>
+	<div id="t_coins"></div>
+	<div id="popover" class="mui-popover">
+		<div class="mui-popover-arrow"></div>
+		<div class="t_coins">
+			<span>风险提示</span><img src="../images/closed.png" alt="" id="closeds">
+			<p>您的提币操作一旦完成，对应的资产所有权将由您变更为目标地址所对应的账户所有人享有，请您务必在提币操作前，仔细核对提币地址信息，确保提币属于自愿行为，并确认不涉及任何传销、非法集资、诈骗等违法情形，谨防上当受骗，避免造成不必要的财产损失。</p>
+			<button id="paypwd">确定</button>
+		</div>
+	</div>
+	<div id="tc" class="box mui-popover mui-popover-action mui-popover-bottom mui-content">
+		<ul class="mui-table-view ">
+			<li class="mui-table-view-cell">
+				<input type="text" name="" placeholder="请输入资金密码" id="money_pwd">
+			</li>
+			<li class="mui-table-view-cell">
+				<input type="text" name="" placeholder="请输入手机号" id="phone_num">
+				<input type="button" id="getcodes" value="获取验证码"/>
+			</li>
+			<li class="mui-table-view-cell">
+				<input type="text" name="" placeholder="请输入验证码" id="checkcode">
+			</li>
+		</ul>
+		<button class="checkcoin" id="submit_coin" onclick="submit_coin()">确定</button>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/jQuery.md5.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		$("#phone_num").val(getCookie("phone"));
+		$("#balances").html(getCookie("balance"));
+		document.getElementById("nextstep").addEventListener("tap", function() {
+			//调用隐藏/显示弹出层
+			mui("#popover").popover('toggle', document.getElementById("t_coins"));
+		})
+		document.getElementById("closeds").addEventListener("tap", function() {
+			//调用隐藏/显示弹出层
+			mui("#popover").popover('hide', document.getElementById("t_coins"));
+		})
+		document.getElementById("paypwd").addEventListener("tap", function() {
+			//调用隐藏/显示弹出层
+			mui("#tc").popover('toggle', document.getElementById("t_coins"));
+		})
+		$.ajax({
+			type: "get",
+			crossDomain: true,
+			url:urls+'/api/v1/account/getServiceCharge/'+getCookie("coinType"),
+			dataType:'json',
+			success: function (res) {
+				console.log(res);
+				if (res.code == 1) {
+					$('#servicePrice').html(parseInt(res.obj.servicePrice));
+					$("#t_nums").bind("input propertychange",function(event){//监听金额输入框值
+						var re=/^[1-9][0-9]{0,6}$|^[1-9][0-9]{0,6}\.[0-9]{0,1}[1-9]$|^0$/;
+						var inputs=$(this).val();
+						if (re.test(inputs)) {
+							if (inputs<5) {
+								$('#realmoney').html('0');
+								$('#nextstep').attr('disabled','disabled');
+							}else{
+								$("#realmoney").html(inputs-parseInt(res.obj.servicePrice));
+								$('#nextstep').removeAttr('disabled','disabled');
+							}
+							
+						}else{
+							$('#realmoney').html('');
+							$('#nextstep').attr('disabled','disabled');
+						}	
+					});
+				} 
+			},
+		})
+		//发送验证码时添加cookie
+		function addCookie(name, value, expiresHours) {
+			var cookieString = name + "=" + escape(value);
+			//判断是否设置过期时间,0代表关闭浏览器时失效
+			if (expiresHours > 0) {
+				var date = new Date();
+				date.setTime(date.getTime() + expiresHours * 1000);
+				cookieString = cookieString + ";expires="  + date.toUTCString();
+			}
+			document.cookie = cookieString;
+		}
+		//修改cookie的值
+		function editCookie(name, value, expiresHours) {
+			var cookieString = name + "=" + escape(value);
+			if (expiresHours > 0) {
+				var date = new Date();
+				date.setTime(date.getTime() + expiresHours * 1000);  //单位是毫秒
+				cookieString = cookieString + ";expires="  + date.toGMTString();
+			}
+			document.cookie = cookieString;
+		}
+		//根据键名获取cookie的值
+		function getCookieValue(name) {
+			var strCookie = document.cookie;
+			var arrCookie = strCookie.split("; ");
+			for (var i = 0; i < arrCookie.length; i++) {
+				var arr = arrCookie[i].split("=");
+				if (arr[0] == name) {
+					return unescape(arr[1]);
+					break;
+				}
+			}
+		}
+		$(document).ready(function () {
+		    // 绑定事件(点击按钮，发送验证码)
+		    $("#getcodes").click(function () {
+		        sends(this);
+		    });
+		    // 页面加载完成后，从cookie中获取剩余倒计时秒数。默认值为0
+		    v = getCookieValue("secondsremained") ? getCookieValue("secondsremained") : 0;
+		    // 如果cookie中倒计时时间不为0，则设置倒计时间
+		    if (v > 0) {
+		        settime(document.getElementById("getcodes"), v);//开始倒计时
+		    }
+		});
+		// 发送验证码、、
+		function sends(_this) {
+		    var mobile =getCookie("phone");
+		    var reg = /^1[3,4,5,6,7,8,9]\d{9}$/;
+		    if (reg.test(mobile)) {
+		        // var login_select=getCookie("login_select");//获取区号
+		        var phone_num = $("#phone_num").val();//获取输入手机号
+		        var all_phone =phone_num;//区号手机号拼接
+		        var message = {"number":all_phone,"tenantId":"0"};//获取验证码接口传值
+		        var messages =  JSON.stringify(message);
+		        var phone_nums=encryptByDESModeCBC(messages,key);//数据EDS加密
+		        var get_code='["'+phone_nums+'"]';
+		        $.ajax({
+		            type: "post",
+		            crossDomain: true,
+		            url:urls+'/api/v1/user/sendSMS?' +get_code ,
+		            dataType:'json',
+		            contentType : "application/json;charset=utf-8",
+		            success: function (res) {
+		                if (res.code==1) {
+		                     // 把'剩余倒计时时间'保存到cookie中,有效时间60s
+		                    addCookie("secondsremained", 60, 60);
+		                     // 开始倒计时
+		                    settime(_this,60);
+		                    alert(res.msg);
+		                }
+		                
+		            },
+		            error:function(res){
+		                alert('获取验证码失败');
+		            }
+		        })
+		    } else {
+		        alert('请输入正确手机号！');
+		    }
+		}
+	</script>
+</body>
+</html>

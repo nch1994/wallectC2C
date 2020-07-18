@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>我的订单(出售)</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/adaptation.css">
+</head>
+<body class="myorder_buy">
+	<div class="mui-content" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" onclick="returns()"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div id="" class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell logos">
+					<img src="../images/zhuanzhang.png" alt="" >
+					<p>商家转账中，请稍后</p>
+				</li>
+				<li class="safety_line"></li>
+				<li class="mui-table-view-cell">
+					<span>订单号</span>
+					<span id="">
+						:
+					</span>
+					<div class="orderno">
+						<span id="order_nos">
+						</span>
+						<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#order_nos" id="order_nos_copy" onclick="copyText('order_nos_copy','order_nos')">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<span>出售价格</span>
+					<span id="">
+						:
+					</span>
+					<div style="float: right;">
+						<span id="ordermoneyss">
+						
+						</span>
+						<span style="margin-left: 4px;display: contents;">CNY</span>
+					</div>
+					
+				</li>
+				<li class="mui-table-view-cell myorder_num">
+					<span>数量</span>
+					<span >
+						:
+					</span>
+					<div style="float: right;">
+						<span id="ordernumss">
+						
+						</span>
+						<span style="margin-left: 4px;display: contents;">USDT</span>
+					</div>
+					
+				</li>
+			</ul>
+			<button type="" class="mui-btn pays" id="check_orders">查看订单</button>
+			<div class="mui-table-view-cell safety_foot">
+				<div>
+					<p>注意</p>
+				</div>
+				<div id="">
+					<p>订单已提交，承兑商转账中,到账时间一般在20-60分钟。</p>
+					<p>若未及时到账，请联系客服微信：saraesa1</p>
+				</div>
+			</div>
+		</div>			
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js"></script>
+	<script type="text/javascript">
+		$('#order_nos').text(theRequest.orderNo);
+		$('#ordernumss').text(theRequest.orderAmount);
+		$('#ordermoneyss').text(theRequest.order_money);
+		$('#check_orders').click(function(){
+			window.location.href="main_order.html?"+encryptByDESModeCBC("orderId="+theRequest.orderNo+"&userId="+theRequest.userId);
+		})
+	</script>
+</body>
+</html>

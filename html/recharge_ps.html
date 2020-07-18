@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>设置资金密码</title>
+    <link rel="icon" href="../images/group3.png" >
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.mui-table-view:before,
+		.mui-table-view:after{
+			display: none;
+		}
+		ul li{
+			height: 3.75rem;
+			line-height: 2.375rem;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="mui-content recharge_ps" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" onclick="toCenter()"></a>
+			<h1 class="mui-title">设置资金密码</h1>
+		</header>
+		<div id="" class="mui-content">
+			<ul class="mui-table-view setting_ps">
+				<li class="mui-table-view-cell">
+					<input type="password" name="" id="paypwd" value="" placeholder="请设置六位数字支付密码" maxlength="6" οnkeyup="value=value.replace(/[^\d\.]/g,'')"/>
+				</li>
+				<li class="mui-table-view-cell">
+					<input type="password" name="" id="paypwds" value="" placeholder="请再次输入新的支付密码"/>
+				</li>
+				<li class="mui-table-view-cell getcode">
+					<input type="" name="" id="phone_num" value="" />
+					<input type="button" id="getcodes" value="获取验证码"/>
+				</li>
+				<li class="mui-table-view-cell">
+					<input type="" name="" id="verCodes" value="" placeholder="请输入验证码"/>
+				</li>
+			</ul>
+			<button type="button" id="ischange">确定修改</button>
+		</div>			
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/jQuery.md5.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.1"></script>
+	<script type="text/javascript">
+		$("#phone_num").val(getCookie("phone"));
+		$("#ischange").click(function(){
+			var paypwd=$('#paypwd').val();
+			var paypwds=$('#paypwds').val();
+			var paypwdss=$.md5($("#paypwd").val()).toUpperCase();
+			var pwdCode = {
+				"payPassword": paypwdss,
+				"userId":userIds
+			};
+			var pwdCodes =  JSON.stringify(pwdCode);
+			var pwdCodes_des=encryptByDESModeCBC(pwdCodes);//数据EDS加密
+			var pwdCodes_dess='["'+pwdCodes_des+'"]';
+			if (paypwd!==paypwds) {
+				alert("两次输入密码不一样，请重新输入！");
+			}else{
+				$.ajax({
+					type: "post",
+					crossDomain: true,
+					url:urls+'/api/v1/user/updatePayPassword?' +pwdCodes_dess ,
+					dataType:'json',
+					contentType : "application/json;charset=utf-8",
+					success: function (res) {
+						console.log(res);
+						if (res.code==1) {
+							setCookie("PayPassword",paypwdss);
+							
+							window.location.href="security_center.html?PayPassword="+paypwdss;	
+						}
+					},
+					error:function(res){
+						alert('操作失败');
+					}
+				})
+			}	
+		})
+		//发送验证码时添加cookie
+		function addCookie(name, value, expiresHours) {
+			var cookieString = name + "=" + escape(value);
+			//判断是否设置过期时间,0代表关闭浏览器时失效
+			if (expiresHours > 0) {
+				var date = new Date();
+				date.setTime(date.getTime() + expiresHours * 1000);
+				cookieString = cookieString + ";expires="  + date.toUTCString();
+			}
+			document.cookie = cookieString;
+		}
+		//修改cookie的值
+		function editCookie(name, value, expiresHours) {
+			var cookieString = name + "=" + escape(value);
+			if (expiresHours > 0) {
+				var date = new Date();
+				date.setTime(date.getTime() + expiresHours * 1000);  //单位是毫秒
+				cookieString = cookieString + ";expires="  + date.toGMTString();
+			}
+			document.cookie = cookieString;
+		}
+		//根据键名获取cookie的值
+		function getCookieValue(name) {
+			var strCookie = document.cookie;
+			var arrCookie = strCookie.split("; ");
+			for (var i = 0; i < arrCookie.length; i++) {
+				var arr = arrCookie[i].split("=");
+				if (arr[0] == name) {
+					return unescape(arr[1]);
+					break;
+				}
+			}
+		}
+		$(document).ready(function () {
+		    // 绑定事件(点击按钮，发送验证码)
+		    $("#getcodes").click(function () {
+		        sends(this);
+		    });
+		    // 页面加载完成后，从cookie中获取剩余倒计时秒数。默认值为0
+		    v = getCookieValue("secondsremained") ? getCookieValue("secondsremained") : 0;
+		    // 如果cookie中倒计时时间不为0，则设置倒计时间
+		    if (v > 0) {
+		        settime(document.getElementById("getcodes"), v);//开始倒计时
+		    }
+		});
+		// 发送验证码、、
+		function sends(_this) {
+		    var mobile =getCookie("phone");
+		    var reg = /^\d{5,}@qq\.com$|^[0-9a-zA-Z_]+@(?!qq\.com)[^@\s]+\.com$/;
+		    if (reg.test(mobile)) {
+		        // var login_select=getCookie("login_select");//获取区号
+		        var phone_num = $("#phone_num").val();//获取输入手机号
+		        var all_phone =phone_num;//区号手机号拼接
+		        var message = {"number":all_phone,"tenantId":"0"};//获取验证码接口传值
+		        var messages =  JSON.stringify(message);
+		        var phone_nums=encryptByDESModeCBC(messages,key);//数据EDS加密
+		        var get_code='["'+phone_nums+'"]';
+		        $.ajax({
+		            type: "post",
+		            crossDomain: true,
+		            url:urls+'/api/v1/user/sendSMS?' +get_code ,
+		            dataType:'json',
+		            contentType : "application/json;charset=utf-8",
+		            success: function (res) {
+		                if (res.code==1) {
+		                     // 把'剩余倒计时时间'保存到cookie中,有效时间60s
+		                    addCookie("secondsremained", 60, 60);
+		                     // 开始倒计时
+		                    settime(_this,60);
+		                    alert(res.msg);
+		                }
+		                
+		            },
+		            error:function(res){
+		                alert('获取验证码失败');
+		            }
+		        })
+		    } else {
+		        alert('请输入正确手机号！');
+		    }
+		}
+	</script>
+</body>
+</html>

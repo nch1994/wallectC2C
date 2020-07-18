@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>银行转账</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css?v=1.0.2">
+	<link rel="stylesheet" href="../css/adaptation.css">
+</head>
+<body class="pay_bank">
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-icon mui-icon-left-nav mui-pull-left" href="javascript:void(0)" onclick="returns()"></a>
+		<h1 class="mui-title">银行卡购买</h1>
+	</header>
+	<div class="mui-content">
+		<div id="h_title">
+			<div class="mh_title">
+				<img src="../images/weibiaoti.png" alt="">
+				<span class="p_pay">请付款</span>
+				<p>
+					请<span class="dingshi"></span>
+						<span>:</span>
+						<span class="dingshi"></span>内付款给承兑商
+				</p>
+			</div>
+		</div>
+		<div class="mui-card">
+			<div class="mh_mid">
+				<p><span id="paybank_money"></span><span class="mh_money"></span></p>
+				<div class="mh_price">
+					<span class="mh_middle ">单价:</span>
+					<span class="mh_mids" id="one_ratesss"></span>
+					<img src="../images/taidabi-2.png" alt="">
+				</div>
+				<p>
+					<span class="mh_middle">数量:</span>
+					<span class="mh_mids" id="mh_midss"></span><span style="margin-left: 5px;">USDT</span>
+				</p>
+			</div>
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<p>请使用本人<span class="customerIds">（</span><span id="customerIds"></span><span class="customerIds">）</span>的银行卡向以下账户自行转账</p>
+				</div>
+				<div class="mui-input-row mui-radio">
+					<div>
+						<img src="../images/yinhangqia-2.png" alt="" class="bank_img">
+						<span class="p_pay">银行卡支付</span>
+					</div>
+					<label>
+						收款人：
+					</label>
+					<label class="inputs" id="payee" >
+						
+					</label>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#payee" id="payee_copy" onclick="copyText('payee_copy','payee')">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>
+						收款银行：
+					</label>
+					<label class="inputs" id="payee_bank">
+						
+					</label>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#payee_bank" id="payee_bank_copy" onclick="copyText('payee_bank_copy','payee_bank')">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label >
+						收款账户：
+					</label>
+					<label class="inputs" id="pay_account">	
+					</label>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#pay_account" id="pay_account_copy" onclick="copyText('pay_account_copy','pay_account')">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<div id="pay_btn">
+						<button type="button" class="mui-btn pays" id="payed">我已付款</button>
+						<button type="button" class="mui-btn pays" style="opacity: 0.29;" id="cancel_order">取消订单</button>
+					</div>
+					<div class="foot_indexs">
+						<p>1、转款请不要备注如买币、usdt等信息</p>
+						<p>2、请勿重复付款，重复付款会导致您的资金损失</p>
+						<p>3、付款成功后需点击<span style="color: red;">
+							《我已付款》
+						</span></p>
+					</div>
+					
+				</div>
+
+			</form>
+		</div>
+	</div>
+	<div id="pops"></div>
+	<div id="popover" class="mui-popover" style="height: 250px;">
+		<div class="mui-popover-arrow"></div>
+		<div id="f_title">
+			<p class="foot_title">确定取消交易？</p>
+			<p class="slogan">如果您已经向卖家付款，请千万不要取消交易</p>
+		</div>
+		<div id="f_middle">
+			<span id="">
+				取消规则：
+			</span>
+			<p>买家当日累计3笔取消，会限制当日买入功能</p>
+		</div>
+		<div class="mui-input-row mui-radio mui-left f_tools">
+			<input name="radios" type="radio" id="radios">
+			<label class="tools">我确认还没有付款给对方</label>
+		</div>
+		<div id="f_footer">
+			<button type="button" class="mui-btn " onclick="f_close()">我再想想</button>
+			<button type="button" class="mui-btn "  id="f_close" onclick="f_closes()" disabled="disabled">确定</button>
+		</div>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		//取消订单关闭模态框
+		document.getElementById("cancel_order").addEventListener("tap", function() {
+			//调用隐藏/显示弹出层
+			mui("#popover").popover('show', document.getElementById("pops"));
+		})
+		$("#payee").text(theRequest.payee);
+		$("#payee_bank").text(theRequest.payee_bank);
+		$("#pay_account").text(theRequest.pay_account);
+		$("#customerId").text(theRequest.customerId);
+		$('#paybank_money').text("¥"+theRequest.orderAmount);
+		$("#mh_midss").text(theRequest.nums);
+		$("#customerIds").text(theRequest.customerId);
+		$(document).ready(function(){
+			var old = null; //用来保存原来的对象  
+			$("input[name='radios']").each(function(){//循环绑定事件  
+				if(this.checked){  
+					old = this; //如果当前对象选中，保存该对象  
+				}  
+				this.onclick = function(){  
+					if(this == old){//如果点击的对象原来是选中的，取消选中  
+						this.checked = false;
+						$('#f_close').attr("disabled","disabled");
+						$('#f_close').attr('style','opacity: 0.29;background: #282633;')
+						old = null;  
+					} else{ 
+						this.checked = true;
+						$('#f_close').removeAttr("disabled");
+						$('#f_close').attr('style','background-image: linear-gradient(135deg, #0AB2E7 0%, #1CEAB0 100%);;opacity:1')
+						old = this;  
+					}  
+				}  
+			});  
+			//人名脱敏
+			var strs=$("#customerIds").text();
+			change(strs);
+			function change(str){
+				if (str.length == 4) {
+				   $("#customerIds").text(str.substring(0,1)+"**"+str.substring(2,3))
+				}else if(str.length==3){
+					 $("#customerIds").text(str.substring(0,1)+ "*" + str.substring(2,str.length));
+				}else if(str.length==2){
+					$("#customerIds").text("*"+str.substring(1,str.length));
+				}else if(str.length>4){
+					 $("#customerIds").text(str.substring(0,1)+"****");
+				}
+			}
+			var orderId=getCookie('orderId');
+			$.ajax({
+				type: "get",
+				url:urls+"/api/v1/coinBasin/tradeStatus/"+orderId,
+				dataType: 'json',
+				success: function (res) {
+					console.log(res);
+					if (res.code==1) {
+						setCookie("times", res.obj.countDown);
+					
+						if (res.obj.status=="交易完成"||res.obj.status=="商家取消"||res.obj.status=="付款超时或用户取消") {
+
+							window.location.href="check_order_buy.html?"+encryptByDESModeCBC("userId="+userIds+"&orderNo="+orderId+"&cnyAmount="+theRequest.orderAmount+"&usdtAmount="+theRequest.nums);
+						}else{
+
+						}
+					}
+				}
+			})
+		});  
+	</script>
+</body>
+</html>

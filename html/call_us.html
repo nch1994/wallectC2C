@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>联系我们</title>
+    <link rel="icon" href="../images/group3.png" >
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/common.css?v=1.0.0">
+    <link rel="stylesheet" href="../css/adaptation.css">
+	<style type="text/css">
+		.mui-table-view:before,
+		.mui-table-view:after{
+			display: none;
+		}
+		ul li{
+			height: 3.75rem;
+			line-height: 2.375rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="mui-content callus" >
+		<header class="mui-bar mui-bar-nav ">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="toCenter()"></a>
+			<h1 class="mui-title">联系我们</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<span>Wallt c2c  官方邮箱:</span>
+					<span id="address_callus">	
+						walletc2c@gmail.com
+					</span>
+					<img src="../images/fuzhi.png" data-clipboard-action="copy" data-clipboard-target="#address_callus" id="address_callus_copy" onclick="copyText('address_callus_copy','address_callus')">
+				</li>
+			</ul>
+		</div>			
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/clipboard.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+</body>
+</html>

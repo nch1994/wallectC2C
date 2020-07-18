@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>身份认证</title>
+	<link rel="icon" href="../images/group3.png" >
+	<link rel="stylesheet" href="../css/mui.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../css/adaptation.css">
+</head>
+<body class="identity">
+	<div class="mui-content">
+		<div id="tabbar" class="mui-control-content mui-active">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-icon mui-icon-left-nav mui-pull-left" onclick="returns()"></a>
+				<h1 class="mui-title">请进行身份认证</h1>
+			</header>
+			<div class="mui-content" class="first_content">
+				<div id="slider" class="mui-slider">
+					<div class="mui-slider-group">
+						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+							<div  class="mui-scroll-wrapper">
+								<div class="mui-scroll">
+									<ul class="mui-table-view" id="one_li">
+										<li class="mui-table-view-cell">
+											<p class="tdb">请上传证件</p>
+										</li>
+										<li class="mui-table-view-cell mui-row">
+											<div class="mui-col-xs-4" id="cardz"></div>
+											<div class="mui-col-xs-4" id="cardf"></div>
+											<div class="mui-col-xs-4" id="idCard"></div>
+										</li>
+										<li class="mui-table-view-cell">
+											<p class="tdb">请填写相关信息</p>
+										</li>
+										<li class="mui-table-view-cell ">
+											<form class="mui-input-group">
+												<!-- <div class="mui-input-row row_num first_info">
+													<input type="text" placeholder="请输入国籍" class="num" id="nationality" />
+												</div> -->
+												<div class="mui-input-row row_num" style="margin-bottom: 20px;">
+													
+													<input type="text" placeholder="请输入姓名" class="num" id="names" />
+												</div>
+												<div class="mui-input-row row_num">
+													<input type="text" placeholder="请输入证件号码" class="num" id="idNumber" />
+												</div>
+
+											</form>
+										</li>
+										<li class="mui-table-view-cell">
+											<div class="mui-button-row">
+												<button type="button" class="mui-btn btn_buy" id="submit_id" >提交</button>
+											</div>
+										</li>
+										
+									</ul>
+									<ul class="mui-table-view">
+										<li class="mui-table-view-cell legend">
+											<p>注意</p>
+											<div class="foot_index">
+												<div id="">
+													<span class="xh">1、</span><p>请仔细核对收款账户信息。</p>
+												</div>
+												<div id="">
+													<span class="xh">2、</span><p>绑定的账号必须为本人真实账号</p>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="pops"></div>
+	<div id="popovers" class="mui-popover" style="height: 220px;padding-top: 18px!important;width: 90%!important;left: 5%;text-align: center;background: #fff!important;">
+		<div class="mui-popover-arrow"></div>
+		<div id="pays_zf">
+			<img src="../images/shenhezhong.png" alt="">
+			<p style="font-size: 16px;color: #18191D;">提交成功</p>
+			<p style="font-size: 14px;color: #18191D;">您的证件已经提交成功，我们会尽快进行审核</p>
+			<button style="background-image: linear-gradient(135deg, #0AB2E7 0%, #1CEAB0 100%);
+border-radius: 20px;width: 90%;height: 40px;border: none;color: #fff;" onclick="submit_id()" id="submit_ids">确定</button>
+		</div>
+	</div>
+	<script src="../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/crypto-js.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/des.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="../js/upload.js"></script>
+	<script src="../js/common.js?v=1.0.0"></script>
+	<script type="text/javascript">
+		upload("cardz","../images/bz5.png");
+		upload("cardf","../images/bz6.png");
+		upload("idCard","../images/sf.png");
+		function upload(id,url){
+			var dragImgUpload = new DragImgUpload("#"+id,{
+			  callback:function (files) {
+					//回调函数，可以传递给后台等等
+				   var file = files[0];
+				   console.log(file);
+				   var formData = new FormData();
+				   formData.append("file",file );
+				   formData.append("folderId",file.name);
+				   formData.append("softType",file.type);
+				   if(!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(file.name))
+				   {
+					   // toastr["error"]($.i18n.prop("pictureType"))
+					   // return false;
+				   }else{
+					   $.ajax({
+						   url: urls+'/api/v2/user/uploadPic',
+						   type:'POST',
+						   contentType: false,
+						   processData: false,
+						   data: formData,
+						   success:function(res){
+							   console.log(res);
+							   setCookie(id,res.obj.pic);
+						   }
+					   });
+				   }
+			  }
+			},url)
+		}
+		document.getElementById("submit_id").addEventListener("tap", function() {
+			var national=$("#nationality").val();//国籍
+			var names=$("#names").val();//姓名
+			var idNumber=$("#idNumber").val();//证件号
+			var userIds=getCookie("userId");//用户id
+			var idCards=getCookie("idCard");//用户手持照片
+			var cardzs=getCookie("cardz");//身份证正面照片
+			var cardfs=getCookie("cardf");//身份证反面照片
+			console.log(national,names,idNumber);
+			if (national!=''&&names!=''&&idNumber!=''&&idCards!=''&&cardzs!=''&&cardfs!='') {
+				//调用隐藏/显示弹出层
+				mui("#popovers").popover('show', document.getElementById("pops"));
+			}else{
+				alert('请完善认证信息');
+			}
+			
+		})
+		function submit_id(){
+			var national=$("#nationality").val();//国籍
+			var names=$("#names").val();//姓名
+			var idNumber=$("#idNumber").val();//证件号
+			var userIds=getCookie("userId");//用户id
+			var idCards=getCookie("idCard");//用户手持照片
+			var cardzs=getCookie("cardz");//身份证正面照片
+			var cardfs=getCookie("cardf");//身份证反面照片
+			var userInfo = {
+				"cardNumber": idNumber,//证件号
+				"cardType": 0,//证件类型，0身份证、1护照
+				"countryId":national,
+				"humanPhoto": idCards,
+				"identityBack":cardfs,
+				"identityFront":cardzs,
+				"realName": names,
+				"userId": userIds
+			};
+			console.log(userInfo);
+			var userInfo_str=JSON.stringify(userInfo);
+			var userInfo_str_des='["'+encryptByDESModeCBC(userInfo_str)+'"]';
+
+			$.ajax({
+				type: "post",
+				crossDomain: true,
+				url:urls+'/api/v1/user/saveUserAuth?' +userInfo_str_des,
+				dataType:'json',
+				contentType : "application/json;charset=utf-8",
+				success: function (res) {
+					console.log(res);
+					if(res.code==1){
+						setCookie("authentication",1);
+						window.location.href="../index.html";
+					}else{
+						alert(res.msg);
+					}
+				},
+			})
+		}
+	</script>
+</body>
+</html>
